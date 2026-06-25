@@ -17,6 +17,8 @@ function AddProductsModal({
         price: product?.price || "",
         stock: product?.stock || "",
         description: product?.description || "",
+        material: product?.material || "",
+
     });
     const { categories } = useCategories();
     const [showToast, setShowToast] = useState(false);
@@ -168,6 +170,20 @@ function AddProductsModal({
                         })
                     }
                     placeholder="Description"
+                    className="border p-3 rounded-lg col-span-2"
+                    rows="4"
+                />
+
+                <input type="text"
+                    value={formData.material}
+                    onChange={(e) =>
+                        setFormData({
+                            ...formData,
+                            material:
+                                e.target.value,
+                        })
+                    }
+                    placeholder="Material"
                     className="border p-3 rounded-lg col-span-2"
                     rows="4"
                 />

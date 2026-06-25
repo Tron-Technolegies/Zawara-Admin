@@ -3,6 +3,8 @@ import { useProducts } from "../../hooks/useProducts";
 import { useState } from "react";
 import AddProductsModal from "./AddProductsModal";
 import { deleteProduct } from "../../api/products";
+import ProductPagination from "./ProductPagination";
+import { useEffect } from "react";
 
 export default function Product() {
     const [showForm, setShowForm] = useState(false);
@@ -11,8 +13,11 @@ export default function Product() {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
     const [selectedProductId, setSelectedProductId] = useState(null);
-
-
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [search]);
     const {
         products,
         loading,
@@ -25,9 +30,14 @@ export default function Product() {
         return <p>Loading...</p>;
     }
     const filteredProducts = products.filter((product) =>
-        product.name
-            .toLowerCase()
-            .includes(search.toLowerCase())
+        product.name.toLowerCase().includes(search.toLowerCase())
+    );
+
+    const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+
+    const paginatedProducts = filteredProducts.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
     );
 
     const handleDelete = async () => {
@@ -115,6 +125,9 @@ export default function Product() {
                                 Description
                             </th>
                             <th className="text-left px-8 py-6">
+                                Material
+                            </th>
+                            <th className="text-left px-8 py-6">
                                 Category
                             </th>
                             <th className="text-left px-8 py-6">
@@ -140,7 +153,7 @@ export default function Product() {
                     </thead>
 
                     <tbody>
-                        {filteredProducts.map((product) => (
+                        {paginatedProducts.map((product) => (
                             <tr
                                 key={product.id}
                                 className="border-b"
@@ -166,6 +179,10 @@ export default function Product() {
 
                                 <td className="px-8 py-8">
                                     {product.description}
+                                </td>
+
+                                <td className="px-8 py-8">
+                                    {product.material}
                                 </td>
 
                                 <td className="px-8 py-8">
@@ -265,6 +282,12 @@ export default function Product() {
                     </div>
                 )}
             </div>
+            <ProductPagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                setCurrentPage={setCurrentPage}
+                totalItems={filteredProducts.length}
+            />
         </div>
     );
 }

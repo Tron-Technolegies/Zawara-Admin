@@ -4,101 +4,130 @@ import {
   FiShoppingBag,
   FiUsers,
 } from "react-icons/fi";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import api from "../api/api";
 
 function DashboardPage() {
-  const [period,setPeriod]= useState("week")  
-  const stats = [
-    {
-      title: "Total Products",
-      value: "248",
-      icon: <FiBox />,
-    },
-    {
-      title: "Categories",
-      value: "18",
-      icon: <FiGrid />,
-    },
-    {
-      title: "Orders",
-      value: "1,245",
-      icon: <FiShoppingBag />,
-    },
-    {
-      title: "Customers",
-      value: "896",
-      icon: <FiUsers />,
-    },
-  ];
+  // const [period, setPeriod] = useState("week")
+  const [dashboardData, setDashboardData] = useState({
+    total_products: 0,
+    total_categories: 0,
+  });
 
+  useEffect(() => {
+    const loadDashboard = async () => {
+      try {
+        const res = await api.get("dashboard/");
+        setDashboardData(res.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    loadDashboard();
+  }, []);
   return (
+
     <div className="space-y-8">
-        {/* Header & Filter */}
-<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      {/* Header & Filter */}
+      {/* <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"> */}
 
-  <div className="flex items-center gap-2">
-    <button
-      onClick={() => setPeriod("thisWeek")}
-      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-        period === "thisWeek"
-          ? "bg-[#FFA100] text-black"
-          : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-50"
-      }`}
-    >
-      This Week
-    </button>
+      {/* <div className="flex items-center gap-2"> */}
+      {/* <button
+            onClick={() => setPeriod("thisWeek")}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${period === "thisWeek"
+              ? "bg-[#FFA100] text-black"
+              : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-50"
+              }`}>
+            This Week
+          </button> */}
 
-    <button
-      onClick={() => setPeriod("thisMonth")}
-      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-        period === "thisMonth"
-          ? "bg-[#FFA100] text-black"
-          : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-50"
-      }`}
-    >
-      This Month
-    </button>
+      {/* <button
+            onClick={() => setPeriod("thisMonth")}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${period === "thisMonth"
+              ? "bg-[#FFA100] text-black"
+              : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-50"
+              }`}>
+            This Month
+          </button>
 
-    <button
-      onClick={() => setPeriod("thisYear")}
-      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-        period === "thisYear"
-          ? "bg-[#FFA100] text-black"
-          : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-50"
-      }`}
-    >
-      This Year
-    </button>
-  </div>
-</div>
-
-
-
+          <button
+            onClick={() => setPeriod("thisYear")}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${period === "thisYear"
+              ? "bg-[#FFA100] text-black"
+              : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-50"
+              }`}>
+            This Year
+          </button> */}
+      {/* </div> */}
+      {/* // </div> */}
 
       {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
-        {stats.map((item) => (
-          <div
-            key={item.title}
-            className="bg-white rounded-xl p-6 shadow-sm border border-[#dddddd]"
-          >
-            <div className="flex justify-between items-center">
-              <div>
-                <p className="text-gray-500 text-sm">
-                  {item.title}
-                </p>
+      {/* Stats */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-4 gap-6">
 
-                <h3 className="text-3xl font-bold mt-2">
-                  {item.value}
-                </h3>
-              </div>
+        <div className="bg-white rounded-xl p-6 shadow-sm border border-[#dddddd]">
+          <div className="flex justify-between items-center">
 
-              <div className="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center text-xl">
-                {item.icon}
-              </div>
+            <div>
+              <p className="text-gray-500 text-sm">
+                Total Categories
+              </p>
+
+              <h3 className="text-3xl font-bold mt-2">
+                {dashboardData.total_categories}
+              </h3>
             </div>
+
+            <div className="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center text-xl">
+              <FiBox size={18} />
+            </div>
+
           </div>
-        ))}
+        </div>
+
+
+        <div className="bg-white rounded-xl p-6 shadow-sm border border-[#dddddd]">
+          <div className="flex justify-between items-center">
+
+            <div>
+              <p className="text-gray-500 text-sm">
+                Total Products
+              </p>
+
+              <h3 className="text-3xl font-bold mt-2">
+                {dashboardData.total_products}
+              </h3>
+            </div>
+
+            <div className="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center text-xl">
+              <FiGrid size={18} />
+            </div>
+
+          </div>
+        </div>
+
+        <div className="bg-white rounded-xl p-6 shadow-sm border border-[#dddddd]">
+          <div className="flex justify-between items-center">
+
+            <div>
+              <p className="text-gray-500 text-sm">
+                Total Orders
+              </p>
+
+              <h3 className="text-3xl font-bold mt-2">
+                {dashboardData.total_categories}
+              </h3>
+            </div>
+
+
+            <div className="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center text-xl">
+              <FiShoppingBag size={18} />
+            </div>
+
+          </div>
+        </div>
+
       </div>
 
       {/* Charts Row */}

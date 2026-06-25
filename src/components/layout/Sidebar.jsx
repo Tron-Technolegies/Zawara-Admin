@@ -8,8 +8,17 @@ import {
   FiX,
 } from "react-icons/fi";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Sidebar({ sidebarOpen, setSidebarOpen }) {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+
+    navigate("login/")
+  }
   const menuItems = [
     {
       title: "Dashboard",
@@ -48,8 +57,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
         />
       )}
 
-     <aside
-  className={`
+      <aside
+        className={`
     fixed lg:relative
     top-0 left-0 z-50
     w-72 h-screen
@@ -58,13 +67,12 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
     border-r border-gray-800
     overflow-hidden
     transform transition-all duration-300
-    ${
-      sidebarOpen
-        ? "translate-x-0"
-        : "-translate-x-full lg:translate-x-0"
-    }
+    ${sidebarOpen
+            ? "translate-x-0"
+            : "-translate-x-full lg:translate-x-0"
+          }
   `}
->
+      >
         {/* Logo */}
         <div className="h-20 flex items-center justify-between px-6 border-b border-gray-800">
           <img
@@ -82,14 +90,14 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
         </div>
 
         {/* Navigation */}
-      <nav
-  className="
+        <nav
+          className="
     flex-1
     overflow-y-auto
     px-4 py-6
     space-y-2
   "
->
+        >
           {menuItems.map((item) => (
             <NavLink
               key={item.title}
@@ -103,11 +111,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   transition-all duration-200
                   font-medium
 
-                  ${
-                    isActive
-                      ? "bg-[#FFA100] text-black shadow-lg"
-                      : "text-gray-300 hover:bg-[#2A2624] hover:text-white"
-                  }
+                  ${isActive
+                  ? "bg-[#FFA100] text-black shadow-lg"
+                  : "text-gray-300 hover:bg-[#2A2624] hover:text-white"
+                }
                 `
               }
             >
@@ -130,6 +137,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
               hover:text-red-300
               transition-all duration-200
             "
+
+            onClick={handleLogout}
           >
             <FiLogOut size={18} />
             <span>Logout</span>

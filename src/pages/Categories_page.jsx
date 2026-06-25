@@ -9,10 +9,25 @@ function Categories_page() {
   const [statusFilter, setStatusFilter] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { categories } = useCategories();
+  const { categories = [] } = useCategories();
 
-  const filteredCategories = categories.filter((category) =>
-    category.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredCategories = categories
+    .filter((category) =>
+      category.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .filter((category) =>
+      statusFilter === "All"
+        ? true
+        : category.status === statusFilter
+    );
+
+  const itemsPerPage = 5;
+
+  const totalPages = Math.ceil(filteredCategories.length / itemsPerPage);
+
+  const paginatedCategories = filteredCategories.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
   );
 
   return (
@@ -24,11 +39,11 @@ function Categories_page() {
         setSearchTerm={setSearchTerm}
       />
 
-      <CategoryTable categories={filteredCategories} />
+      <CategoryTable categories={paginatedCategories} />
 
       <CategoryPagination
         currentPage={currentPage}
-        totalPages={5}
+        totalPages={totalPages}
         setCurrentPage={setCurrentPage}
         totalCategories={filteredCategories.length}
       />

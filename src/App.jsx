@@ -1,41 +1,47 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import DashboardPage from "./pages/DashboardPage";
-// import ProductPage from "./pages/ProductPage";
 import Categories_page from "./pages/Categories_page";
 import CustomersPage from "./pages/CustomersPage";
 import OrdersPage from "./pages/OrdersPage";
-import Login from "./pages/Login";
 import Product from "./components/product/Product";
+import LoginPage from "./pages/LoginPage";
+import AdminProtectedRoute from "./pages/AdminProtectedRoute";
 
 const router = createBrowserRouter([
   {
     path: "/login",
-    element: <Login />,
+    element: <LoginPage />,
   },
+
   {
-    path: "/",
-    element: <Layout />,
+    element: <AdminProtectedRoute />,
     children: [
       {
-        path: "dashboard",
-        element: <DashboardPage />,
-      },
-      {
-        path: "product",
-        element: <Product />,
-      },
-      {
-        path: "categories",
-        element: <Categories_page />,
-      },
-      {
-        path: "customers",
-        element: <CustomersPage />,
-      },
-      {
-        path: "orders",
-        element: <OrdersPage />,
+        path: "/",
+        element: <Layout />,
+        children: [
+          {
+            path: "dashboard",
+            element: <DashboardPage />,
+          },
+          {
+            path: "product",
+            element: <Product />,
+          },
+          {
+            path: "categories",
+            element: <Categories_page />,
+          },
+          {
+            path: "customers",
+            element: <CustomersPage />,
+          },
+          {
+            path: "orders",
+            element: <OrdersPage />,
+          },
+        ],
       },
     ],
   },
