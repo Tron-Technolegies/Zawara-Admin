@@ -4,8 +4,9 @@ export const getProducts = () => {
     return api.get("product/");
 };
 
-export const addProduct = (data) => {
-    return api.post("product/add/", data);
+
+export const addProduct = (formData) => {
+    return api.post("product/add/", formData);
 };
 
 export const updateProduct = (id, data) => {

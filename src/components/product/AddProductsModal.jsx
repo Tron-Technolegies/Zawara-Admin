@@ -18,6 +18,7 @@ function AddProductsModal({
         stock: product?.stock || "",
         description: product?.description || "",
         material: product?.material || "",
+        image: null,
 
     });
     const { categories } = useCategories();
@@ -32,10 +33,25 @@ function AddProductsModal({
     };
     const confirmSubmit = async () => {
         try {
+            const data = new FormData();
+
+            data.append("name", formData.name);
+            data.append("category", formData.category);
+            data.append("size", formData.size);
+            data.append("gender", formData.gender);
+            data.append("price", formData.price);
+            data.append("stock", formData.stock);
+            data.append("description", formData.description);
+            data.append("material", formData.material);
+
+            if (formData.image) {
+                data.append("image", formData.image);
+            }
+
             if (isEdit) {
-                await handleUpdateProduct(product.id, formData);
+                await handleUpdateProduct(product.id, data);
             } else {
-                await handleAddProduct(formData);
+                await handleAddProduct(data);
             }
 
             setShowConfirm(false);
@@ -50,7 +66,6 @@ function AddProductsModal({
             console.error(error);
         }
     };
-
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -174,18 +189,29 @@ function AddProductsModal({
                     rows="4"
                 />
 
-                <input type="text"
+                <input
+                    type="text"
                     value={formData.material}
                     onChange={(e) =>
                         setFormData({
                             ...formData,
-                            material:
-                                e.target.value,
+                            material: e.target.value,
                         })
                     }
                     placeholder="Material"
                     className="border p-3 rounded-lg col-span-2"
-                    rows="4"
+                />
+
+                <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) =>
+                        setFormData({
+                            ...formData,
+                            image: e.target.files[0],
+                        })
+                    }
+                    className="border p-3 rounded-lg col-span-2"
                 />
 
                 <div className="flex gap-3 mt-4 col-span-2">

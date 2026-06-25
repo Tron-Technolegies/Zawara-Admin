@@ -21,34 +21,30 @@ export const useProducts = () => {
         }
     };
 
-    const handleAddProduct = async (productData) => {
+    const handleAddProduct = async (formData) => {
         try {
-            const res = await addProduct(productData);
-
-            const newProduct = res.data;
+            const res = await addProduct(formData);
 
             setProducts((prev) => [
                 ...prev,
-                newProduct,
+                res.data,
             ]);
 
-            return newProduct;
+            return res.data;
         } catch (error) {
             console.error("Add failed:", error);
             throw error;
         }
     };
-
-    const handleUpdateProduct = async (id, updatedData) => {
+    const handleUpdateProduct = async (id, formData) => {
         try {
-            await updateProduct(id, updatedData);
+            await updateProduct(id, formData);
             await fetchProducts();
         } catch (error) {
             console.error("Update failed:", error);
             throw error;
         }
     };
-
     useEffect(() => {
         fetchProducts();
     }, []);
