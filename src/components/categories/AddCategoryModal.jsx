@@ -3,37 +3,19 @@ import {
   FiX,
   FiUploadCloud,
 } from "react-icons/fi";
+import { useCategories } from "../../hooks/useCategory";
 
 function AddCategoryModal({ onClose }) {
   const [formData, setFormData] = useState({
     name: "",
-    slug: "",
     description: "",
     status: "Active",
   });
-
+  const { createCategory } = useCategories();
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState("");
   const [errors, setErrors] = useState({});
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    if (name === "name") {
-      setFormData({
-        ...formData,
-        name: value,
-        slug: value
-          .toLowerCase()
-          .replace(/\s+/g, "-"),
-      });
-    } else {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
-    }
-  };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -44,6 +26,15 @@ function AddCategoryModal({ onClose }) {
     }
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const validateForm = () => {
     const newErrors = {};
 
@@ -52,10 +43,10 @@ function AddCategoryModal({ onClose }) {
         "Category name is required";
     }
 
-    if (!image) {
-      newErrors.image =
-        "Category image is required";
-    }
+    // if (!image) {
+    //   newErrors.image =
+    //     "Category image is required";
+    // }
 
     setErrors(newErrors);
 
@@ -69,14 +60,37 @@ function AddCategoryModal({ onClose }) {
 
     if (!validateForm()) return;
 
-    console.log({
-      ...formData,
-      image,
-    });
-
-    onClose();
+    setShowConfirmModal(true);
   };
 
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const saveCategory = async () => {
+    try {
+      const data = new FormData();
+
+      data.append("name", formData.name);
+      data.append("description", formData.description);
+      data.append("status", formData.status);
+
+      if (image) {
+        data.append("image", image);
+      }
+
+      await createCategory(data);
+
+      setShowConfirmModal(false);
+      setShowSuccess(true);
+
+      setTimeout(() => {
+        setShowSuccess(false);
+        onClose();
+      }, 2000);
+
+    } catch (error) {
+      console.error("Add category error:", error);
+    }
+  };
   return (
     <div className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center p-4">
 
@@ -125,19 +139,6 @@ function AddCategoryModal({ onClose }) {
               )}
             </div>
 
-            {/* Slug */}
-            <div>
-              <label className="block mb-2 font-medium">
-                Slug
-              </label>
-
-              <input
-                type="text"
-                value={formData.slug}
-                readOnly
-                className="w-full border bg-gray-100 rounded-xl px-4 py-3"
-              />
-            </div>
 
             {/* Status */}
             <div>
@@ -242,6 +243,40 @@ function AddCategoryModal({ onClose }) {
             </button>
 
           </div>
+          {showConfirmModal && (
+            <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-[60]">
+              <div className="bg-white p-6 rounded-xl w-96 shadow-lg">
+                <h3 className="text-lg font-semibold">
+                  Add Category
+                </h3>
+
+                <p className="mt-2 text-gray-600">
+                  Do you want to save this category?
+                </p>
+
+                <div className="flex justify-end gap-3 mt-6">
+                  <button
+                    onClick={() => setShowConfirmModal(false)}
+                    className="px-4 py-2 border rounded-lg"
+                  >
+                    Cancel
+                  </button>
+
+                  <button
+                    onClick={saveCategory}
+                    className="px-4 py-2 bg-[#FFA100] rounded-lg"
+                  >
+                    Confirm
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+          {showSuccess && (
+            <div className="fixed bottom-6 right-6 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg z-[70]">
+              Category added successfully.
+            </div>
+          )}
 
         </form>
       </div>

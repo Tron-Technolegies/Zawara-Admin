@@ -1,0 +1,237 @@
+import { useState } from "react";
+import { useCategories } from "../../hooks/useCategory";
+
+
+function AddProductsModal({
+    product,
+    handleAddProduct,
+    handleUpdateProduct,
+    onClose,
+}) {
+    const [showConfirm, setShowConfirm] = useState(false);
+    const [formData, setFormData] = useState({
+        name: product?.name || "",
+        category: product?.category?.id || "",
+        size: product?.size?.id || "",
+        gender: product?.gender || "",
+        price: product?.price || "",
+        stock: product?.stock || "",
+        description: product?.description || "",
+    });
+    const { categories } = useCategories();
+    const [showToast, setShowToast] = useState(false);
+
+
+    const isEdit = !!product;
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setShowConfirm(true);
+    };
+    const confirmSubmit = async () => {
+        try {
+            if (isEdit) {
+                await handleUpdateProduct(product.id, formData);
+            } else {
+                await handleAddProduct(formData);
+            }
+
+            setShowConfirm(false);
+            setShowToast(true);
+
+            setTimeout(() => {
+                setShowToast(false);
+                onClose();
+            }, 3000);
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    return (
+        <div>
+            <h2 className="text-2xl font-semibold mb-4">
+                {isEdit
+                    ? "Update Product"
+                    : "Add Product"}
+            </h2>
+
+            <form
+                onSubmit={handleSubmit}
+                className="grid grid-cols-2 gap-4"
+            >
+                <input
+                    value={formData.name}
+                    onChange={(e) =>
+                        setFormData({
+                            ...formData,
+                            name: e.target.value,
+                        })
+                    }
+                    placeholder="Name"
+                    className="border p-3 rounded-lg" />
+
+                <select
+                    name="category"
+                    value={formData.category}
+                    onChange={handleChange}>
+                    <option value="">Select Category</option>
+
+                    {categories.map((category) => (
+                        <option
+                            key={category.id}
+                            value={category.id}>
+                            {category.name}
+                        </option>
+                    ))}
+                </select>
+                <select
+                    value={formData.size}
+                    onChange={(e) =>
+                        setFormData({
+                            ...formData,
+                            size: e.target.value,
+                        })
+                    }
+                >
+                    <option value="">Select Size</option>
+                    <option value="S">Small</option>
+                    <option value="M">Medium</option>
+                    <option value="XL">Extra Large</option>
+                </select>
+
+                <input
+                    value={formData.price}
+                    onChange={(e) =>
+                        setFormData({
+                            ...formData,
+                            price: e.target.value,
+                        })
+                    }
+                    placeholder="Price"
+                    className="border p-3 rounded-lg"
+                />
+
+                <input
+                    value={formData.stock}
+                    onChange={(e) =>
+                        setFormData({
+                            ...formData,
+                            stock: e.target.value,
+                        })
+                    }
+                    placeholder="Stock"
+                    className="border p-3 rounded-lg"
+                />
+
+                <select
+                    value={formData.gender}
+                    onChange={(e) =>
+                        setFormData({
+                            ...formData,
+                            gender: e.target.value,
+                        })
+                    }
+                    className="border p-3 rounded-lg"
+                >
+                    <option value="">
+                        Select Gender
+                    </option>
+                    <option value="Male">
+                        Male
+                    </option>
+                    <option value="Female">
+                        Female
+                    </option>
+                    <option value="Unisex">
+                        Normal
+                    </option>
+                </select>
+
+                <div></div>
+
+                <textarea
+                    value={formData.description}
+                    onChange={(e) =>
+                        setFormData({
+                            ...formData,
+                            description:
+                                e.target.value,
+                        })
+                    }
+                    placeholder="Description"
+                    className="border p-3 rounded-lg col-span-2"
+                    rows="4"
+                />
+
+                <div className="flex gap-3 mt-4 col-span-2">
+                    <button
+                        type="submit"
+                        className="bg-orange-500 text-white px-5 py-2 rounded-lg"
+                    >
+                        {isEdit
+                            ? "Update Product"
+                            : "Save Product"}
+                    </button>
+
+                    <button
+                        type="button"
+                        onClick={onClose}
+                        className="border px-5 py-2 rounded-lg"
+                    >
+                        Cancel
+                    </button>
+                </div>
+                {showConfirm && (
+                    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+                        <div className="bg-white p-6 rounded-xl w-96">
+                            <h3 className="text-lg font-semibold">
+                                {isEdit ? "Update Product" : "Add Product"}
+                            </h3>
+
+                            <p className="mt-2 text-gray-600">
+                                {isEdit
+                                    ? "Do you want to update this product?"
+                                    : "Do you want to add this product?"}
+                            </p>
+
+                            <div className="flex justify-end gap-3 mt-6">
+                                <button
+                                    onClick={() => setShowConfirm(false)}
+                                    className="px-4 py-2 border rounded-lg"
+                                >
+                                    Cancel
+                                </button>
+
+                                <button
+                                    onClick={confirmSubmit}
+                                    className="px-4 py-2 bg-orange-500 text-white rounded-lg"
+                                >
+                                    Confirm
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+                {showToast && (
+                    <div className="fixed bottom-6 right-6 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg">
+                        {isEdit
+                            ? "Product updated successfully"
+                            : "Product added successfully"}
+                    </div>
+                )}
+            </form>
+        </div>
+    );
+}
+
+
+export default AddProductsModal;

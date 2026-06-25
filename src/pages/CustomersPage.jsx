@@ -11,7 +11,7 @@ function CustomersPage() {
   const [statusFilter, setStatusFilter] =
     useState("All");
 
- 
+
 
   const [currentPage, setCurrentPage] =
     useState(1);
@@ -37,6 +37,14 @@ function CustomersPage() {
     },
   ];
 
+  const filteredCustomers = customers.filter((customer) =>
+    Object.values(customer).some((value) =>
+      String(value)
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+    )
+  );
+
   return (
     <div className="space-y-6">
 
@@ -48,7 +56,7 @@ function CustomersPage() {
       />
 
       <CustomerTable
-        customers={customers}
+        customers={filteredCustomers}
       />
 
       <CustomerPagination

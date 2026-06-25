@@ -1,64 +1,37 @@
 import { useState } from "react";
-import CategoryHeader from "../components/categories/CategoryHeader"
-import CategoryTable from "../components/categories/CategoryTable"
+import CategoryHeader from "../components/categories/CategoryHeader";
+import CategoryTable from "../components/categories/CategoryTable";
 import CategoryPagination from "../components/categories/CategoryPagination";
+import { useCategories } from "../hooks/useCategory";
 
 function Categories_page() {
-  const [searchTerm, setSearchTerm] =
-    useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All");
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const [statusFilter, setStatusFilter] =
-    useState("All");
+  const { categories } = useCategories();
 
-  const [currentPage, setCurrentPage] =
-    useState(1);
-
-  const [showModal, setShowModal] =
-    useState(false);
-
-  const categories = [
-    {
-      id: 1,
-      image: "/categories/casual.jpg",
-      name: "Casual Wear",
-      slug: "casual-wear",
-      status: "Active",
-      createdDate: "2026-06-01",
-    },
-    {
-      id: 2,
-      image: "/categories/party.jpg",
-      name: "Party Wear",
-      slug: "party-wear",
-      status: "Active",
-      createdDate: "2026-06-02",
-    },
-  ];
+  const filteredCategories = categories.filter((category) =>
+    category.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="p-6">
-
       <CategoryHeader
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
         statusFilter={statusFilter}
         setStatusFilter={setStatusFilter}
-        setShowModal={setShowModal}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
       />
 
-      <CategoryTable
-        categories={categories}
-      />
+      <CategoryTable categories={filteredCategories} />
 
       <CategoryPagination
         currentPage={currentPage}
         totalPages={5}
         setCurrentPage={setCurrentPage}
-        totalCategories={
-          categories.length
-        }
+        totalCategories={filteredCategories.length}
       />
-
     </div>
   );
 }
