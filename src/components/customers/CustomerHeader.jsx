@@ -7,20 +7,20 @@ function CustomerHeader({
   setStatusFilter,
 }) {
   return (
-    <div className="flex flex-col lg:flex-row justify-between items-center gap-4 mb-6">
+    <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 mb-6">
 
-      <h1 className="text-3xl font-bold">
+      <h1 className="text-3xl font-bold self-start">
         Customers
       </h1>
 
-      <div className="flex flex-wrap gap-3 w-full lg:w-auto">
+      <div className="flex flex-col lg:flex-row gap-3 w-full lg:w-auto">
 
         <select
           value={statusFilter}
           onChange={(e) =>
             setStatusFilter(e.target.value)
           }
-          className="border rounded-lg px-4 py-3"
+          className="border rounded-lg px-4 py-3 w-full lg:w-44 min-w-[170px]"
         >
           <option value="All">
             All Status
@@ -33,7 +33,7 @@ function CustomerHeader({
           </option>
         </select>
 
-        <div className="relative">
+        <div className="relative w-full lg:w-80">
 
           <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
 
@@ -44,12 +44,12 @@ function CustomerHeader({
             onChange={(e) =>
               setSearchTerm(e.target.value)
             }
-            className="pl-11 pr-4 py-3 border rounded-lg w-full lg:w-80"
+            className="pl-11 pr-4 py-3 border rounded-lg w-full"
           />
 
         </div>
 
-        <button className="border border-blue-500 text-blue-600 px-5 py-3 rounded-lg flex items-center gap-2">
+        <button className="border border-blue-500 text-blue-600 px-5 py-3 rounded-lg flex items-center justify-center gap-2 w-full sm:w-auto">
           <FiFilter />
           Filters
         </button>

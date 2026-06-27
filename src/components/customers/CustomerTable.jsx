@@ -26,27 +26,27 @@ function CustomerTable({ customers }) {
   };
   return (
     <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[900px]">
+      <div className="w-full overflow-x-auto">
+        <table className="w-full min-w-[720px] lg:min-w-[900px]">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-4 text-left">
+              <th className="px-4 lg:px-6 py-4 text-left whitespace-nowrap">
                 Customer
               </th>
 
-              <th className="px-6 py-4 text-left">
+              <th className="px-4 lg:px-6 py-4 text-left whitespace-nowrap">
                 Email
               </th>
 
-              <th className="px-6 py-4 text-left">
+              <th className="px-4 lg:px-6 py-4 text-left whitespace-nowrap">
                 Phone
               </th>
 
-              <th className="px-6 py-4 text-left">
+              <th className="px-4 lg:px-6 py-4 text-left whitespace-nowrap">
                 Status
               </th>
 
-              <th className="px-6 py-4 text-center">
+              <th className="px-4 lg:px-6 py-4 text-center whitespace-nowrap">
                 Actions
               </th>
             </tr>
@@ -56,16 +56,15 @@ function CustomerTable({ customers }) {
             {customers.map((customer) => (
               <tr
                 key={customer.id}
-                className="border-t hover:bg-gray-50"
-              >
-                <td className="px-6 py-4">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-[#FFA100] text-white flex items-center justify-center font-semibold">
+                className="border-t hover:bg-gray-50">
+                <td className="px-4 lg:px-6 py-4">
+                  <div className="flex items-center gap-3 lg:gap-4 min-w-0">
+                    <div className="w-10 h-10 lg:w-12 lg:h-12 shrink-0 rounded-full bg-[#FFA100] text-white flex items-center justify-center font-semibold">
                       {customer.full_name.charAt(0).toUpperCase()}
                     </div>
 
-                    <div>
-                      <p className="font-medium">
+                    <div className="min-w-0">
+                      <p className="font-medium truncate max-w-[140px] sm:max-w-[220px] lg:max-w-none">
                         {customer.full_name}
                       </p>
 
@@ -76,15 +75,15 @@ function CustomerTable({ customers }) {
                   </div>
                 </td>
 
-                <td className="px-6 py-4">
+                <td className="px-4 lg:px-6 py-4 break-all lg:whitespace-nowrap">
                   {customer.email}
                 </td>
 
-                <td className="px-6 py-4">
+                <td className="px-4 lg:px-6 py-4 whitespace-nowrap">
                   {customer.mobile}
                 </td>
 
-                <td className="px-6 py-4">
+                <td className="px-4 lg:px-6 py-4 whitespace-nowrap">
                   <span
                     className={`px-3 py-1 rounded-full text-xs ${customer.is_active
                       ? "bg-green-100 text-green-700"
@@ -97,14 +96,14 @@ function CustomerTable({ customers }) {
                   </span>
                 </td>
 
-                <td className="px-6 py-4">
+                <td className="px-4 lg:px-6 py-4">
                   <div className="flex justify-center">
                     <button
                       onClick={() => {
                         setSelectedCustomer(customer);
                         setShowConfirm(true);
                       }}
-                      className="w-9 h-9 rounded-lg bg-red-50 text-red-600 flex items-center justify-center hover:bg-red-100">
+                      className="w-8 h-8 lg:w-9 lg:h-9 rounded-lg bg-red-50 text-red-600 flex items-center justify-center hover:bg-red-100">
                       <FiTrash2 />
                     </button>
                   </div>
@@ -116,8 +115,7 @@ function CustomerTable({ customers }) {
               <tr>
                 <td
                   colSpan="5"
-                  className="text-center py-8 text-gray-500"
-                >
+                  className="text-center py-8 text-gray-500 px-4">
                   No customers found.
                 </td>
               </tr>
@@ -126,8 +124,8 @@ function CustomerTable({ customers }) {
         </table>
       </div>
       {showConfirm && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white w-[90%] max-w-sm rounded-xl shadow-lg p-6">
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4">
+          <div className="bg-white w-full max-w-sm rounded-xl shadow-lg p-6">
             <h3 className="text-lg font-semibold">
               Delete Customer
             </h3>
@@ -136,20 +134,20 @@ function CustomerTable({ customers }) {
               Are you sure you want to delete this customer?
             </p>
 
-            <div className="flex justify-end gap-3 mt-6">
+            <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 mt-6">
               <button
                 onClick={() => {
                   setShowConfirm(false);
                   setSelectedCustomer(null);
                 }}
-                className="px-4 py-2 border rounded-lg hover:bg-gray-100"
+                className="w-full sm:w-auto px-4 py-2 border rounded-lg hover:bg-gray-100"
               >
                 Cancel
               </button>
 
               <button
                 onClick={handleDelete}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+                className="w-full sm:w-auto px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
               >
                 Confirm
               </button>
@@ -159,7 +157,7 @@ function CustomerTable({ customers }) {
       )}
 
       {showSuccess && (
-        <div className="fixed bottom-6 right-6 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg z-[70]">
+        <div className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:bottom-6 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg z-[70] text-center">
           Customer deleted successfully.
         </div>
       )}

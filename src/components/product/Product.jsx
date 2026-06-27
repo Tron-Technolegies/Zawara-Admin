@@ -58,15 +58,15 @@ export default function Product() {
     };
 
     return (
-        <div className="p-6 bg-gray-50 min-h-screen rounded-lg">
+        <div className="p-4 md:p-6 bg-gray-50 min-h-screen rounded-lg">
             {/* Header */}
-            <div className="flex justify-between items-center mb-8">
-                <h1 className="text-4xl font-bold">
+            <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 mb-8">
+                <h1 className="text-2xl md:text-4xl font-bold">
                     Products
                 </h1>
 
-                <div className="flex gap-4">
-                    <select className="px-5 py-2 border rounded-xl bg-white">
+                <div className="flex flex-col sm:flex-row flex-wrap gap-3 w-full lg:w-auto">
+                    <select className="px-4 py-2 border rounded-xl bg-white w-full sm:w-auto">
                         <option>All Status</option>
                     </select>
 
@@ -75,7 +75,7 @@ export default function Product() {
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                         placeholder="Search product..."
-                        className="px-5 border rounded-xl w-72"
+                        className="px-4 py-2 border rounded-xl w-full sm:w-72"
                     />
 
                     <button
@@ -83,7 +83,7 @@ export default function Product() {
                             setEditingProduct(null);
                             setShowForm(true);
                         }}
-                        className="bg-orange-500 text-white px-5 rounded-xl"
+                        className="bg-orange-500 text-white px-5 py-2 rounded-xl w-full sm:w-auto"
                     >
                         Add Product
                     </button>
@@ -93,7 +93,7 @@ export default function Product() {
             {/* Add / Update Form */}
             {showForm && (
                 <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-                    <div className="bg-white p-6 rounded-xl w-[700px] max-h-[90vh] overflow-y-auto">
+                    <div className="bg-white p-4 md:p-6 rounded-xl w-[95%] max-w-3xl max-h-[90vh] overflow-y-auto">
                         <AddProductsModal
                             product={editingProduct}
                             handleAddProduct={handleAddProduct}
@@ -108,8 +108,8 @@ export default function Product() {
             )}
 
             {/* Table */}
-            <div className="bg-white rounded-3xl overflow-x-auto border">
-                <table className="w-full">
+            <div className="bg-white rounded-3xl border overflow-x-auto">
+                <table className="min-w-[1100px] w-full">
                     <thead>
                         <tr className="border-b bg-white">
                             <th className="text-left px-8 py-6">
@@ -158,22 +158,22 @@ export default function Product() {
                                 key={product.id}
                                 className="border-b"
                             >
-                                <td className="px-8 py-8">
+                                <td className="px-4 md:px-8 py-4 md:py-6">
                                     {product.id}
                                 </td>
 
-                                <td className="px-8 py-8">
+                                <td className="px-4 md:px-8 py-4 md:py-6">
                                     <img
                                         src={
                                             product.image ||
                                             "https://via.placeholder.com/70"
                                         }
                                         alt={product.name}
-                                        className="w-16 h-16 rounded-lg object-cover"
+                                        className="w-12 h-12 md:w-16 md:h-16 rounded-lg object-cover"
                                     />
                                 </td>
 
-                                <td className="px-8 py-8 font-medium">
+                                <td className="px-4 md:px-8 py-4 md:py-6 font-medium">
                                     {product.name}
                                 </td>
 
@@ -181,32 +181,32 @@ export default function Product() {
                                     {product.description}
                                 </td> */}
 
-                                <td className="px-8 py-8">
+                                <td className="px-4 md:px-8 py-4 md:py-6">
                                     {product.material}
                                 </td>
 
-                                <td className="px-8 py-8">
+                                <td className="px-4 md:px-8 py-4 md:py-6">
                                     {product.category?.name}
                                 </td>
-                                <td className="px-8 py-8">
+                                <td className="px-4 md:px-8 py-4 md:py-6">
                                     {product.size}
                                 </td>
 
-                                <td className="px-8 py-8">
+                                <td className="px-4 md:px-8 py-4 md:py-6">
                                     {product.gender}
                                 </td>
 
-                                <td className="px-8 py-8">
+                                <td className="px-4 md:px-8 py-4 md:py-6">
                                     ₹{product.price}
                                 </td>
 
-                                <td className="px-8 py-8">
+                                <td className="px-4 md:px-8 py-4 md:py-6">
                                     {product.stock}
                                 </td>
 
-                                <td className="px-8 py-8">
+                                <td className="px-4 md:px-8 py-4 md:py-6">
                                     <span
-                                        className={`px-4 py-2 rounded-full ${product.stock > 0
+                                        className={`px-3 py-1 text-sm rounded-full ${product.stock > 0
                                             ? "bg-green-100 text-green-700"
                                             : "bg-red-100 text-red-700"
                                             }`}
@@ -217,8 +217,8 @@ export default function Product() {
                                     </span>
                                 </td>
 
-                                <td className="px-8 py-8">
-                                    <div className="flex gap-4">
+                                <td className="px-4 md:px-8 py-4 md:py-6">
+                                    <div className="flex gap-2">
                                         <button
                                             onClick={() => {
                                                 setEditingProduct(
@@ -226,8 +226,7 @@ export default function Product() {
                                                 );
                                                 setShowForm(true);
                                             }}
-                                            className="w-11 h-11 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600"
-                                        >
+                                            className="w-9 h-9 md:w-11 md:h-11 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600">
                                             <Pencil size={18} />
                                         </button>
 

@@ -104,7 +104,7 @@ function AddProductsModal({
 
             <form
                 onSubmit={handleSubmit}
-                className="grid grid-cols-2 gap-4">
+                className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <input
                     value={formData.name}
                     onChange={(e) =>
@@ -203,23 +203,11 @@ function AddProductsModal({
                         })
                     }
                     placeholder="Description"
-                    className="border p-3 rounded-lg col-span-2"
+                    className="border p-3 rounded-lg md:col-span-2"
                     rows="4"
                 />
 
-                {/* <input
-                    type="text"
-                    value={formData.material}
-                    onChange={(e) =>
-                        setFormData({
-                            ...formData,
-                            material: e.target.value,
-                        })
-                    }
-                    placeholder="Material"
-                    className="border p-3 rounded-lg col-span-2"
-                /> */}
-                <div>
+                <div className="w-full">
                     <label className="block text-sm font-medium mb-1">
                         Material
                     </label>
@@ -262,13 +250,13 @@ function AddProductsModal({
                             image: e.target.files[0],
                         })
                     }
-                    className="border p-3 rounded-lg col-span-2"
+                    className="border p-3 rounded-lg md:col-span-2 w-full"
                 />
 
-                <div className="flex gap-3 mt-4 col-span-2">
+                <div className="flex flex-col sm:flex-row gap-3 mt-4 md:col-span-2">
                     <button
                         type="submit"
-                        className="bg-orange-500 text-white px-5 py-2 rounded-lg"
+                        className="bg-orange-500 text-white px-5 py-3 rounded-lg w-full sm:w-auto"
                     >
                         {isEdit
                             ? "Update Product"
@@ -278,14 +266,14 @@ function AddProductsModal({
                     <button
                         type="button"
                         onClick={onClose}
-                        className="border px-5 py-2 rounded-lg"
+                        className="border px-5 py-3 rounded-lg w-full sm:w-auto"
                     >
                         Cancel
                     </button>
                 </div>
                 {showConfirm && (
                     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-                        <div className="bg-white p-6 rounded-xl w-96">
+                        <div className="bg-white p-6 rounded-xl w-[90%] max-w-md mx-4">
                             <h3 className="text-lg font-semibold">
                                 {isEdit ? "Update Product" : "Add Product"}
                             </h3>
@@ -315,7 +303,7 @@ function AddProductsModal({
                     </div>
                 )}
                 {showToast && (
-                    <div className="fixed bottom-6 right-6 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg">
+                    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 sm:left-auto sm:right-6 sm:translate-x-0 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg max-w-[90%]">
                         {isEdit
                             ? "Product updated successfully"
                             : "Product added successfully"}

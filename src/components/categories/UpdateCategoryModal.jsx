@@ -98,10 +98,10 @@ function UpdateCategoryModal({
     return (
         <div className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center p-4">
 
-            <div className="bg-white w-full max-w-3xl rounded-2xl shadow-xl overflow-hidden">
+            <div className="bg-white w-full max-w-3xl rounded-2xl shadow-xl overflow-hidden max-h-[95vh]">
 
                 {/* Header */}
-                <div className="flex justify-between items-center px-6 py-4 border-b">
+                <div className="flex justify-between items-center px-4 sm:px-6 py-4 border-b">
                     <h2 className="text-xl font-semibold">
                         Update Category
                     </h2>
@@ -117,9 +117,9 @@ function UpdateCategoryModal({
                 {/* Form */}
                 <form
                     onSubmit={handleSubmit}
-                    className="p-6 max-h-[80vh] overflow-y-auto"
+                    className="p-4 sm:p-6 max-h-[85vh] overflow-y-auto"
                 >
-                    <div className="grid md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                         {/* Category Name */}
                         <div>
@@ -190,7 +190,7 @@ function UpdateCategoryModal({
                             Category Image
                         </label>
 
-                        <label className="border-2 border-dashed border-gray-300 rounded-2xl p-8 flex flex-col items-center cursor-pointer hover:border-[#FFA100] transition">
+                        <label className="border-2 border-dashed border-gray-300 rounded-2xl p-5 sm:p-8 flex flex-col items-center cursor-pointer hover:border-[#FFA100] transition">
 
                             <FiUploadCloud
                                 size={42}
@@ -223,25 +223,25 @@ function UpdateCategoryModal({
                             <img
                                 src={preview}
                                 alt="Preview"
-                                className="w-32 h-32 object-cover rounded-xl border mt-4"
+                                className="w-24 h-24 sm:w-32 sm:h-32 object-cover rounded-xl border mt-4"
                             />
                         )}
                     </div>
 
                     {/* Footer */}
-                    <div className="flex justify-end gap-3 mt-8">
+                    <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 mt-8">
 
                         <button
                             type="button"
                             onClick={onClose}
-                            className="px-5 py-3 border rounded-xl hover:bg-gray-50"
+                            className="w-full sm:w-auto px-5 py-3 border rounded-xl hover:bg-gray-50"
                         >
                             Cancel
                         </button>
 
                         <button
                             type="submit"
-                            className="bg-[#FFA100] hover:bg-[#e69500] px-5 py-3 rounded-xl font-medium"
+                            className="w-full sm:w-auto bg-[#FFA100] hover:bg-[#e69500] px-5 py-3 rounded-xl font-medium"
                         >
                             Update Category
                         </button>
@@ -249,7 +249,7 @@ function UpdateCategoryModal({
                     </div>
                     {showConfirmModal && (
                         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-[60]">
-                            <div className="bg-white p-6 rounded-xl w-96 shadow-lg">
+                            <div className="bg-white p-6 rounded-xl w-full max-w-sm shadow-lg mx-4">
                                 <h3 className="text-lg font-semibold">
                                     Update Category
                                 </h3>
@@ -277,7 +277,7 @@ function UpdateCategoryModal({
                         </div>
                     )}
                     {showSuccess && (
-                        <div className="fixed bottom-6 right-6 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg z-[70]">
+                        <div className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:bottom-6 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg z-[70] text-center">
                             Category updated successfully.
                         </div>
                     )}

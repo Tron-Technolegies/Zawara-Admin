@@ -41,30 +41,32 @@ function CategoryTable({ categories }) {
 
       <div className="overflow-x-auto">
 
-        <table className="w-full min-w-[900px]">
+        <table className="w-full min-w-[700px] lg:min-w-[900px]">
 
           <thead className="bg-gray-50">
 
             <tr>
-              <th className="px-6 py-4 text-left">
+              <th className="px-4 lg:px-6 py-4 text-left whitespace-nowrap">
                 ID
               </th>
-              <th className="px-6 py-4 text-left">
+
+              <th className="px-4 lg:px-6 py-4 text-left whitespace-nowrap">
                 Image
               </th>
-              <th className="px-6 py-4 text-left">
+
+              <th className="px-4 lg:px-6 py-4 text-left whitespace-nowrap">
                 Category Name
               </th>
-              {/* <th className="px-6 py-4 text-left">
-                Description
-              </th> */}
-              <th className="px-6 py-4 text-left">
+
+              <th className="px-4 lg:px-6 py-4 text-left whitespace-nowrap">
                 Status
               </th>
-              <th className="px-6 py-4 text-center">
+
+              <th className="px-4 lg:px-6 py-4 text-center whitespace-nowrap">
                 Actions
               </th>
             </tr>
+
           </thead>
 
           <tbody>
@@ -74,57 +76,54 @@ function CategoryTable({ categories }) {
                 key={category.id}
                 className="border-t hover:bg-gray-50"
               >
-                <td className="px-6 py-4 font-medium">
+                <td className="px-4 lg:px-6 py-4 font-medium whitespace-nowrap">
                   {category.id}
                 </td>
-                <td className="px-6 py-4">
+
+                <td className="px-4 lg:px-6 py-4">
                   <img
                     src={category.image}
                     alt={category.name}
-                    className="w-16 h-16 rounded-lg object-cover"
+                    className="w-12 h-12 lg:w-16 lg:h-16 rounded-lg object-cover"
                   />
                 </td>
 
-                <td className="px-6 py-4 font-medium">
+                <td className="px-4 lg:px-6 py-4 font-medium whitespace-nowrap">
                   {category.name}
                 </td>
 
-                {/* <td className="px-6 py-4 font-medium">
-                  {category.description}
-                </td> */}
-
-                <td className="px-6 py-4">
+                <td className="px-4 lg:px-6 py-4 whitespace-nowrap">
                   <span
                     className={`px-3 py-1 rounded-full text-xs ${category.status === "Active"
-                      ? "bg-green-100 text-green-700"
-                      : "bg-red-100 text-red-700"
+                        ? "bg-green-100 text-green-700"
+                        : "bg-red-100 text-red-700"
                       }`}
                   >
                     {category.status}
                   </span>
                 </td>
 
-                <td className="px-6 py-4">
-                  <div className="flex justify-center gap-3">
-
+                <td className="px-4 lg:px-6 py-4">
+                  <div className="flex justify-center gap-2 lg:gap-3">
                     <button
                       onClick={() => {
                         setSelectedCategory(category);
                         setShowUpdateModal(true);
                       }}
-                      className="w-9 h-9 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center">
+                      className="w-8 h-8 lg:w-9 lg:h-9 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center"
+                    >
                       <FiEdit2 />
                     </button>
+
                     <button
                       onClick={() => {
                         setSelectedCategoryId(category.id);
                         setShowDeleteModal(true);
                       }}
-                      className="w-9 h-9 bg-red-50 text-red-600 rounded-lg flex items-center justify-center"
+                      className="w-8 h-8 lg:w-9 lg:h-9 bg-red-50 text-red-600 rounded-lg flex items-center justify-center"
                     >
                       <FiTrash2 />
                     </button>
-
                   </div>
                 </td>
               </tr>
@@ -133,16 +132,17 @@ function CategoryTable({ categories }) {
           </tbody>
 
         </table>
+
         {showUpdateModal && (
           <UpdateCategoryModal
             category={selectedCategory}
-            onClose={() =>
-              setShowUpdateModal(false)
-            } />
+            onClose={() => setShowUpdateModal(false)}
+          />
         )}
+
         {showDeleteModal && (
-          <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
-            <div className="bg-white p-6 rounded-xl w-96">
+          <div className="fixed inset-0 bg-black/40 flex items-center justify-center px-4">
+            <div className="bg-white p-6 rounded-xl w-full max-w-sm">
               <h3 className="text-lg font-semibold">
                 Delete Category
               </h3>
@@ -169,11 +169,13 @@ function CategoryTable({ categories }) {
             </div>
           </div>
         )}
+
         {showSuccess && (
-          <div className="fixed bottom-6 right-6 bg-yellow-600 text-white px-4 py-3 rounded-lg shadow-lg">
+          <div className="fixed bottom-4 right-4 left-4 sm:left-auto sm:bottom-6 sm:right-6 bg-yellow-600 text-white px-4 py-3 rounded-lg shadow-lg text-center">
             Category deleted successfully.
           </div>
         )}
+
       </div>
 
     </div>

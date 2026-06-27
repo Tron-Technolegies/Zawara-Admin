@@ -1,56 +1,3 @@
-// import { useState } from "react";
-// import CustomerHeader from "../components/customers/CustomerHeader";
-// import CustomerTable from "../components/customers/CustomerTable";
-// import CustomerPagination from "../components/customers/CustomerPagination";
-
-
-// function CustomersPage() {
-//   const [searchTerm, setSearchTerm] =
-//     useState("");
-
-//   const [statusFilter, setStatusFilter] =
-//     useState("All");
-
-
-
-//   const [currentPage, setCurrentPage] =
-//     useState(1);
-
-//   const filteredCustomers = customers.filter((customer) =>
-//     Object.values(customer).some((value) =>
-//       String(value)
-//         .toLowerCase()
-//         .includes(searchTerm.toLowerCase())
-//     )
-//   );
-
-//   return (
-//     <div className="space-y-6">
-
-//       <CustomerHeader
-//         searchTerm={searchTerm}
-//         setSearchTerm={setSearchTerm}
-//         statusFilter={statusFilter}
-//         setStatusFilter={setStatusFilter}
-//       />
-
-//       <CustomerTable
-//         customers={filteredCustomers}
-//       />
-
-//       <CustomerPagination
-//         currentPage={currentPage}
-//         totalPages={5}
-//         setCurrentPage={setCurrentPage}
-//       />
-
-
-//     </div>
-//   );
-// }
-
-// export default CustomersPage;
-
 import { useState } from "react";
 import { useCustomers } from "../hooks/useCustomers";
 import CustomerHeader from "../components/customers/CustomerHeader";
@@ -71,6 +18,16 @@ function CustomersPage() {
         .includes(searchTerm.toLowerCase())
     )
   );
+  const itemsPerPage = 5;
+
+  const totalPages = Math.ceil(filteredCustomers.length / itemsPerPage);
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+
+  const currentCustomers = filteredCustomers.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
 
   if (loading) {
     return <div>Loading...</div>;
@@ -85,11 +42,11 @@ function CustomersPage() {
         setStatusFilter={setStatusFilter}
       />
 
-      <CustomerTable customers={filteredCustomers} />
+      <CustomerTable customers={currentCustomers} />
 
       <CustomerPagination
         currentPage={currentPage}
-        totalPages={5}
+        totalPages={totalPages}
         setCurrentPage={setCurrentPage}
       />
     </div>
@@ -97,4 +54,3 @@ function CustomersPage() {
 }
 
 export default CustomersPage;
-
