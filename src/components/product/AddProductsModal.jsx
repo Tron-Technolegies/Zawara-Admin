@@ -9,6 +9,13 @@ function AddProductsModal({
     onClose,
 }) {
     const [showConfirm, setShowConfirm] = useState(false);
+    const predefinedMaterials = [
+        "Cotton",
+        "Linen",
+        "Polyester",
+        "Silk",
+    ];
+
     const [formData, setFormData] = useState({
         name: product?.name || "",
         category: product?.category?.id || "",
@@ -17,9 +24,18 @@ function AddProductsModal({
         price: product?.price || "",
         stock: product?.stock || "",
         description: product?.description || "",
-        material: product?.material || "",
-        image: null,
+        material: product
+            ? predefinedMaterials.includes(product.material)
+                ? product.material
+                : "Others"
+            : "",
+        customMaterial: product
+            ? predefinedMaterials.includes(product.material)
+                ? ""
+                : product.material
+            : "",
 
+        image: null,
     });
     const { categories } = useCategories();
     const [showToast, setShowToast] = useState(false);
@@ -42,7 +58,12 @@ function AddProductsModal({
             data.append("price", formData.price);
             data.append("stock", formData.stock);
             data.append("description", formData.description);
-            data.append("material", formData.material);
+            data.append(
+                "material",
+                formData.material === "Others"
+                    ? formData.customMaterial
+                    : formData.material
+            );
 
             if (formData.image) {
                 data.append("image", formData.image);
@@ -83,8 +104,7 @@ function AddProductsModal({
 
             <form
                 onSubmit={handleSubmit}
-                className="grid grid-cols-2 gap-4"
-            >
+                className="grid grid-cols-2 gap-4">
                 <input
                     value={formData.name}
                     onChange={(e) =>
@@ -99,7 +119,8 @@ function AddProductsModal({
                 <select
                     name="category"
                     value={formData.category}
-                    onChange={handleChange}>
+                    onChange={handleChange}
+                    className="border p-3 rounded-lg">
                     <option value="">Select Category</option>
 
                     {categories.map((category) => (
@@ -118,7 +139,7 @@ function AddProductsModal({
                             size: e.target.value,
                         })
                     }
-                >
+                    className="border p-3 rounded-lg">
                     <option value="">Select Size</option>
                     <option value="S">Small</option>
                     <option value="M">Medium</option>
@@ -134,8 +155,7 @@ function AddProductsModal({
                         })
                     }
                     placeholder="Price"
-                    className="border p-3 rounded-lg"
-                />
+                    className="border p-3 rounded-lg" />
 
                 <input
                     value={formData.stock}
@@ -146,8 +166,7 @@ function AddProductsModal({
                         })
                     }
                     placeholder="Stock"
-                    className="border p-3 rounded-lg"
-                />
+                    className="border p-3 rounded-lg" />
 
                 <select
                     value={formData.gender}
@@ -157,8 +176,7 @@ function AddProductsModal({
                             gender: e.target.value,
                         })
                     }
-                    className="border p-3 rounded-lg"
-                >
+                    className="border p-3 rounded-lg">
                     <option value="">
                         Select Gender
                     </option>
@@ -189,7 +207,7 @@ function AddProductsModal({
                     rows="4"
                 />
 
-                <input
+                {/* <input
                     type="text"
                     value={formData.material}
                     onChange={(e) =>
@@ -200,7 +218,40 @@ function AddProductsModal({
                     }
                     placeholder="Material"
                     className="border p-3 rounded-lg col-span-2"
-                />
+                /> */}
+                <div>
+                    <label className="block text-sm font-medium mb-1">
+                        Material
+                    </label>
+
+                    <select
+                        value={formData.material}
+                        onChange={(e) =>
+                            setFormData({
+                                ...formData,
+                                material: e.target.value,
+                            })
+                        }
+                        className="w-full border rounded-lg px-3 py-2">
+                        <option value="">Select Material</option>
+                        <option value="Cotton">Cotton</option>
+                        <option value="Linen">Linen</option>
+                        <option value="Polyester">Polyester</option>
+                        <option value="Silk">Silk</option>
+                        <option value="Others">Others</option>
+                    </select>
+                    {formData.material === "Others" && (
+                        <input
+                            type="text"
+                            name="customMaterial"
+                            value={formData.customMaterial}
+                            onChange={handleChange}
+                            placeholder="Enter Material"
+                            className="border p-3 rounded-lg mt-2 w-full"
+                            required
+                        />
+                    )}
+                </div>
 
                 <input
                     type="file"
