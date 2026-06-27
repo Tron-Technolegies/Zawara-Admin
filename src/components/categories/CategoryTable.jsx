@@ -55,9 +55,9 @@ function CategoryTable({ categories }) {
               <th className="px-6 py-4 text-left">
                 Category Name
               </th>
-              <th className="px-6 py-4 text-left">
+              {/* <th className="px-6 py-4 text-left">
                 Description
-              </th>
+              </th> */}
               <th className="px-6 py-4 text-left">
                 Status
               </th>
@@ -89,9 +89,9 @@ function CategoryTable({ categories }) {
                   {category.name}
                 </td>
 
-                <td className="px-6 py-4 font-medium">
+                {/* <td className="px-6 py-4 font-medium">
                   {category.description}
-                </td>
+                </td> */}
 
                 <td className="px-6 py-4">
                   <span

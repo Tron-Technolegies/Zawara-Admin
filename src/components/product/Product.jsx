@@ -121,9 +121,9 @@ export default function Product() {
                             <th className="text-left px-8 py-6">
                                 Product Name
                             </th>
-                            <th className="text-left px-8 py-6">
+                            {/* <th className="text-left px-8 py-6">
                                 Description
-                            </th>
+                            </th> */}
                             <th className="text-left px-8 py-6">
                                 Material
                             </th>
@@ -177,9 +177,9 @@ export default function Product() {
                                     {product.name}
                                 </td>
 
-                                <td className="px-8 py-8">
+                                {/* <td className="px-8 py-8">
                                     {product.description}
-                                </td>
+                                </td> */}
 
                                 <td className="px-8 py-8">
                                     {product.material}

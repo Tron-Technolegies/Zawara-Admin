@@ -11,7 +11,7 @@ function UpdateCategoryModal({
     const [image, setImage] = useState(null);
     const [formData, setFormData] = useState({
         name: category.name,
-        description: category.description,
+        // description: category.description,
         status: category.status,
     });
     const { updateCategory } = useCategories();
@@ -74,7 +74,7 @@ function UpdateCategoryModal({
             const data = new FormData();
 
             data.append("name", formData.name);
-            data.append("description", formData.description);
+            // data.append("description", formData.description);
             data.append("status", formData.status);
 
             if (image) {
@@ -169,7 +169,7 @@ function UpdateCategoryModal({
                     </div>
 
                     {/* Description */}
-                    <div className="mt-6">
+                    {/* <div className="mt-6">
                         <label className="block mb-2 font-medium">
                             Description
                         </label>
@@ -182,7 +182,7 @@ function UpdateCategoryModal({
                             placeholder="Enter category description"
                             className="w-full border rounded-xl px-4 py-3 resize-none"
                         />
-                    </div>
+                    </div> */}
 
                     {/* Image Upload */}
                     <div className="mt-6">
