@@ -128,6 +128,9 @@ export default function Product() {
                                 Material
                             </th>
                             <th className="text-left px-8 py-6">
+                                Section
+                            </th>
+                            <th className="text-left px-8 py-6">
                                 Category
                             </th>
                             <th className="text-left px-8 py-6">
@@ -183,6 +186,10 @@ export default function Product() {
 
                                 <td className="px-4 md:px-8 py-4 md:py-6">
                                     {product.material}
+                                </td>
+
+                                <td className="px-4 md:px-8 py-4 md:py-6">
+                                    {product.sections}
                                 </td>
 
                                 <td className="px-4 md:px-8 py-4 md:py-6">

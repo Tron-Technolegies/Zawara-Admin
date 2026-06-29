@@ -19,11 +19,14 @@ function AddProductsModal({
     const [formData, setFormData] = useState({
         name: product?.name || "",
         category: product?.category?.id || "",
-        size: product?.size?.id || "",
+        size: product?.size || "",
         gender: product?.gender || "",
         price: product?.price || "",
         stock: product?.stock || "",
         description: product?.description || "",
+        is_featured: product?.is_featured || false,
+        sections: product?.sections || "none",
+
         material: product
             ? predefinedMaterials.includes(product.material)
                 ? product.material
@@ -34,7 +37,6 @@ function AddProductsModal({
                 ? ""
                 : product.material
             : "",
-
         image: null,
     });
     const { categories } = useCategories();
@@ -58,6 +60,8 @@ function AddProductsModal({
             data.append("price", formData.price);
             data.append("stock", formData.stock);
             data.append("description", formData.description);
+            data.append("is_featured", formData.is_featured);
+            data.append("sections", formData.sections);
             data.append(
                 "material",
                 formData.material === "Others"
@@ -207,38 +211,80 @@ function AddProductsModal({
                     rows="4"
                 />
 
-                <div className="w-full">
-                    <label className="block text-sm font-medium mb-1">
-                        Material
-                    </label>
-
+                <div className="flex flex-col md:flex-row gap-4 md:col-span-2">
                     <select
-                        value={formData.material}
+                        name="sections"
+                        value={formData.sections}
+                        onChange={handleChange}
+                        className="flex-1 border rounded-lg p-3"
+                    >
+                        <option value="none">None</option>
+
+                        <optgroup label="Curated Edits">
+                            <option value="curated Red Velvet">
+                                Red Velvet
+                            </option>
+                            <option value="curated_chanderi_silks">
+                                Chanderi Silks
+                            </option>
+                        </optgroup>
+
+                        <option value="summer_chronicles">
+                            Summer Chronicles
+                        </option>
+
+                        <option value="heritage_blooms">
+                            Heritage Blooms
+                        </option>
+                    </select>
+
+                    <div className="flex-1">
+                        <select
+                            value={formData.material}
+                            onChange={(e) =>
+                                setFormData({
+                                    ...formData,
+                                    material: e.target.value,
+                                })
+                            }
+                            className="w-full border rounded-lg p-3"
+                        >
+                            <option value="">Select Material</option>
+                            <option value="Cotton">Cotton</option>
+                            <option value="Linen">Linen</option>
+                            <option value="Polyester">Polyester</option>
+                            <option value="Silk">Silk</option>
+                            <option value="Others">Others</option>
+                        </select>
+
+                        {formData.material === "Others" && (
+                            <input
+                                type="text"
+                                name="customMaterial"
+                                value={formData.customMaterial}
+                                onChange={handleChange}
+                                placeholder="Enter Material"
+                                className="border p-3 rounded-lg mt-2 w-full"
+                                required
+                            />
+                        )}
+                    </div>
+                </div>
+
+                <div className="flex items-center gap-2 md:col-span-2 p-2">
+                    <input
+                        type="checkbox"
+                        id="is_featured"
+                        checked={formData.is_featured}
                         onChange={(e) =>
                             setFormData({
                                 ...formData,
-                                material: e.target.value,
+                                is_featured: e.target.checked,
                             })
-                        }
-                        className="w-full border rounded-lg px-3 py-2">
-                        <option value="">Select Material</option>
-                        <option value="Cotton">Cotton</option>
-                        <option value="Linen">Linen</option>
-                        <option value="Polyester">Polyester</option>
-                        <option value="Silk">Silk</option>
-                        <option value="Others">Others</option>
-                    </select>
-                    {formData.material === "Others" && (
-                        <input
-                            type="text"
-                            name="customMaterial"
-                            value={formData.customMaterial}
-                            onChange={handleChange}
-                            placeholder="Enter Material"
-                            className="border p-3 rounded-lg mt-2 w-full"
-                            required
-                        />
-                    )}
+                        } />
+                    <label htmlFor="is_featured">
+                        Featured Product
+                    </label>
                 </div>
 
                 <input
@@ -250,14 +296,12 @@ function AddProductsModal({
                             image: e.target.files[0],
                         })
                     }
-                    className="border p-3 rounded-lg md:col-span-2 w-full"
-                />
+                    className="border p-3 rounded-lg md:col-span-2 w-full" />
 
                 <div className="flex flex-col sm:flex-row gap-3 mt-4 md:col-span-2">
                     <button
                         type="submit"
-                        className="bg-orange-500 text-white px-5 py-3 rounded-lg w-full sm:w-auto"
-                    >
+                        className="bg-orange-500 text-white px-5 py-3 rounded-lg w-full sm:w-auto">
                         {isEdit
                             ? "Update Product"
                             : "Save Product"}
