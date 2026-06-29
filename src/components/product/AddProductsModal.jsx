@@ -216,8 +216,7 @@ function AddProductsModal({
                         name="sections"
                         value={formData.sections}
                         onChange={handleChange}
-                        className="flex-1 border rounded-lg p-3"
-                    >
+                        className="flex-1 border rounded-lg p-3">
                         <option value="none">None</option>
 
                         <optgroup label="Curated Edits">
