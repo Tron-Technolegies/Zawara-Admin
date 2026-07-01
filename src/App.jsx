@@ -7,6 +7,8 @@ import OrdersPage from "./pages/OrdersPage";
 import Product from "./components/product/Product";
 import LoginPage from "./pages/LoginPage";
 import AdminProtectedRoute from "./pages/AdminProtectedRoute";
+import Coupons from "./components/Coupons/Coupons";
+
 
 const router = createBrowserRouter([
   {
@@ -40,6 +42,10 @@ const router = createBrowserRouter([
           {
             path: "orders",
             element: <OrdersPage />,
+          },
+          {
+            path: "coupons",
+            element: <Coupons />
           },
         ],
       },

@@ -45,6 +45,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
       icon: <FiUsers />,
       path: "/customers",
     },
+    {
+      title: "Coupons",
+      icon: <FiUsers />,
+      path: "/coupons",
+    },
   ];
 
   return (
@@ -78,7 +83,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
           <img
             src="/Zawara-logo.png"
             alt="Zawara"
-            className="h-10 object-contain invert "
+            className="ml-8 h-8 object-contain invert "
           />
 
           <button
