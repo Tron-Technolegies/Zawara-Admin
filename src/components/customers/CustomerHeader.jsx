@@ -9,7 +9,7 @@ function CustomerHeader({
   return (
     <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 mb-6">
 
-      <h1 className="text-3xl font-bold self-start">
+      <h1 className="text-2xl md:text-4xl font-bold">
         Customers
       </h1>
 
@@ -49,10 +49,10 @@ function CustomerHeader({
 
         </div>
 
-        <button className="border border-blue-500 text-blue-600 px-5 py-3 rounded-lg flex items-center justify-center gap-2 w-full sm:w-auto">
+        {/* <button className="border border-blue-500 text-blue-600 px-5 py-3 rounded-lg flex items-center justify-center gap-2 w-full sm:w-auto">
           <FiFilter />
           Filters
-        </button>
+        </button> */}
 
       </div>
 

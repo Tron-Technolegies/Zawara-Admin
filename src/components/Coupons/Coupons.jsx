@@ -60,7 +60,7 @@ const Coupons = () => {
         <div className="space-y-6">
             {/* Header */}
             <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
-                <h1 className="text-2xl font-bold">Coupons</h1>
+                <h1 className="text-2xl md:text-4xl font-bold">Coupons</h1>
 
                 <div className="flex flex-col sm:flex-row flex-wrap gap-3">
                     <select className="border rounded-lg px-4 py-2">
@@ -79,12 +79,11 @@ const Coupons = () => {
                         setSelectedCoupon(null);
                         setShowForm(true);
                     }}
-                        className="bg-orange-400 px-4 py-2 rounded-lg font-semibold">
+                        className="bg-[#FFA100] text-white px-5 py-2 rounded-lg  font-medium w-full sm:w-auto">
                         Add Coupon
                     </button>
                 </div>
             </div>
-
             {/* Coupon Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {coupons.map((coupon) => (

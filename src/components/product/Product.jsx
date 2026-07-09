@@ -83,8 +83,7 @@ export default function Product() {
                             setEditingProduct(null);
                             setShowForm(true);
                         }}
-                        className="bg-orange-500 text-white px-5 py-2 rounded-xl w-full sm:w-auto"
-                    >
+                        className="bg-[#FFA100] text-white px-5 py-2 rounded-lg  font-medium w-full sm:w-auto">
                         Add Product
                     </button>
                 </div>

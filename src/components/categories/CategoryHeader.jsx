@@ -11,7 +11,7 @@ function CategoryHeader({
 
   return (
     <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 mb-6">
-      <h1 className="text-2xl font-bold self-start">
+      <h1 className="text-2xl md:text-4xl font-bold">
         Categories
       </h1>
 
@@ -36,7 +36,7 @@ function CategoryHeader({
 
         <button
           onClick={() => setShowModal(true)}
-          className="bg-[#FFA100] px-5 py-2 rounded-lg font-medium w-full sm:w-auto"
+          className="bg-[#FFA100] px-5 py-2 rounded-lg text-white font-medium w-full sm:w-auto"
         >
           Add Category
         </button>
