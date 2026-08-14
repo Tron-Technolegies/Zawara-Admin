@@ -19,7 +19,7 @@ function AddProductsModal({
     const [formData, setFormData] = useState({
         name: product?.name || "",
         category: product?.category?.id || "",
-        size: product?.size || "",
+        size: product?.size ? product.size.split(",") : [],
         gender: product?.gender || "",
         price: product?.price || "",
         stock: product?.stock || "",
@@ -55,7 +55,7 @@ function AddProductsModal({
 
             data.append("name", formData.name);
             data.append("category", formData.category);
-            data.append("size", formData.size);
+            data.append("size", formData.size.join(","));
             data.append("gender", formData.gender);
             data.append("price", formData.price);
             data.append("stock", formData.stock);
@@ -136,17 +136,23 @@ function AddProductsModal({
                     ))}
                 </select>
                 <select
+                    multiple
+                    name="size"
                     value={formData.size}
                     onChange={(e) =>
                         setFormData({
                             ...formData,
-                            size: e.target.value,
+                            size: Array.from(
+                                e.target.selectedOptions,
+                                (option) => option.value
+                            ),
                         })
                     }
-                    className="border p-3 rounded-lg">
-                    <option value="">Select Size</option>
+                    className="border p-3 rounded-lg h-32"
+                >
                     <option value="S">Small</option>
                     <option value="M">Medium</option>
+                    <option value="L">Large</option>
                     <option value="XL">Extra Large</option>
                 </select>
 

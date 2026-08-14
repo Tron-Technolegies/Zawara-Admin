@@ -114,11 +114,12 @@ const CouponForm = ({ onClose, onSubmit, initialData, mode = "add" }) => {
                     name="valid_to"
                     value={formData.valid_to}
                     onChange={handleChange}
-                    className="border p-2 rounded"
-                />
+                    className="border p-2 rounded" />
 
                 <div className="md:col-span-2 flex justify-end gap-3 mt-4">
-                    <button type="button" onClick={onClose}>
+                    <button type="button" onClick={onClose}
+                        className="border px-4 py-2 rounded"
+                    >
                         Cancel
                     </button>
 

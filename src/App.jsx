@@ -8,6 +8,7 @@ import Product from "./components/product/Product";
 import LoginPage from "./pages/LoginPage";
 import AdminProtectedRoute from "./pages/AdminProtectedRoute";
 import Coupons from "./components/Coupons/Coupons";
+import SalesHistory from "./pages/SalesHistory";
 
 
 const router = createBrowserRouter([
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
           {
             path: "orders",
             element: <OrdersPage />,
+          },
+          {
+            path: "saleshistory",
+            element: <SalesHistory />,
           },
           {
             path: "coupons",

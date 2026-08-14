@@ -60,7 +60,7 @@ export default function Product() {
     return (
         <div className="p-4 md:p-6 bg-gray-50 min-h-screen rounded-lg">
             {/* Header */}
-            <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 mb-8">
+            <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 mb-6">
                 <h1 className="text-2xl md:text-4xl font-bold">
                     Products
                 </h1>
@@ -91,7 +91,7 @@ export default function Product() {
 
             {/* Add / Update Form */}
             {showForm && (
-                <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+                <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-40">
                     <div className="bg-white p-4 md:p-6 rounded-xl w-[95%] max-w-3xl max-h-[90vh] overflow-y-auto">
                         <AddProductsModal
                             product={editingProduct}
@@ -253,7 +253,7 @@ export default function Product() {
                 </table>
 
                 {showDeleteModal && (
-                    <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
+                    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-40">
                         <div className="bg-white p-6 rounded-xl w-96">
                             <h3 className="text-lg font-semibold">
                                 Delete Product

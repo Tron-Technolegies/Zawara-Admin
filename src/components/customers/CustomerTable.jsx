@@ -1,6 +1,6 @@
 import { FiTrash2 } from "react-icons/fi";
 import { useState } from "react";
-import { deleteCustomer } from "../../api/customers";
+// import { deleteCustomer } from "../../api/customers";
 
 function CustomerTable({ customers }) {
   const [showConfirm, setShowConfirm] = useState(false);
@@ -46,9 +46,9 @@ function CustomerTable({ customers }) {
                 Status
               </th>
 
-              <th className="px-4 lg:px-6 py-4 text-center whitespace-nowrap">
+              {/* <th className="px-4 lg:px-6 py-4 text-center whitespace-nowrap">
                 Actions
-              </th>
+              </th> */}
             </tr>
           </thead>
 
@@ -96,7 +96,7 @@ function CustomerTable({ customers }) {
                   </span>
                 </td>
 
-                <td className="px-4 lg:px-6 py-4">
+                {/* <td className="px-4 lg:px-6 py-4">
                   <div className="flex justify-center">
                     <button
                       onClick={() => {
@@ -107,7 +107,7 @@ function CustomerTable({ customers }) {
                       <FiTrash2 />
                     </button>
                   </div>
-                </td>
+                </td> */}
               </tr>
             ))}
 
@@ -156,11 +156,11 @@ function CustomerTable({ customers }) {
         </div>
       )}
 
-      {showSuccess && (
+      {/* {showSuccess && (
         <div className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:bottom-6 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg z-[70] text-center">
           Customer deleted successfully.
         </div>
-      )}
+      )} */}
 
     </div>
   );

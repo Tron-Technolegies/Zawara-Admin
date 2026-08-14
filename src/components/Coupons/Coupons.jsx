@@ -7,6 +7,7 @@ import CouponForm from "./CouponForm";
 const Coupons = () => {
     const { coupons, loading, addCoupon, editCoupon, removeCoupon } = useCoupons();
     const [showForm, setShowForm] = useState(false);
+    const [search, setSearch] = useState("")
 
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
@@ -55,6 +56,9 @@ const Coupons = () => {
         triggerSuccess();
     };
 
+    const filteredCoupons = coupons.filter((coupon) =>
+        coupon.name.toLowerCase().includes(search.toLowerCase())
+    );
 
     return (
         <div className="space-y-6">
@@ -72,6 +76,8 @@ const Coupons = () => {
                     <input
                         type="text"
                         placeholder="Search coupon..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
                         className="border rounded-lg px-4 py-2 sm:w-64"
                     />
 
@@ -86,7 +92,7 @@ const Coupons = () => {
             </div>
             {/* Coupon Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {coupons.map((coupon) => (
+                {filteredCoupons.map((coupon) => (
                     <div
                         key={coupon.id}
                         className="bg-white p-6 rounded-xl border border-slate-200 shadow-md hover:shadow-lg transition"
@@ -213,7 +219,7 @@ const Coupons = () => {
                                             setShowForm(true);
                                         }
                                     }}
-                                    className="px-4 py-2 border rounded-lg"
+                                    className="px-4 py-2 border   rounded-lg"
                                 >
                                     Cancel
                                 </button>

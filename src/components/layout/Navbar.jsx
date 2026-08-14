@@ -23,9 +23,6 @@ function Navbar({ setSidebarOpen }) {
 
   const title = pageTitles[location.pathname] || "Admin Panel";
 
-  // =========================
-  // FETCH ALL NOTIFICATIONS ON PAGE LOAD
-  // =========================
   const fetchNotifications = async () => {
     try {
       const res = await axios.get("http://127.0.0.1:8000/api/admin/notifications/");
@@ -40,9 +37,7 @@ function Navbar({ setSidebarOpen }) {
     fetchNotifications();
   }, []);
 
-  // =========================
-  // WEBSOCKET FOR LIVE NOTIFICATIONS
-  // =========================
+  // WebSocket live notification
   useEffect(() => {
     const socket = new WebSocket("ws://127.0.0.1:8000/ws/admin/notifications/");
 
@@ -57,7 +52,6 @@ function Navbar({ setSidebarOpen }) {
         id: data.notification_id,
         title: data.title,
         message: data.message,
-        is_read: false,
         created_at: data.created_at,
       };
 
@@ -76,9 +70,7 @@ function Navbar({ setSidebarOpen }) {
     return () => socket.close();
   }, []);
 
-  // =========================
-  // MARK SINGLE NOTIFICATION AS READ
-  // =========================
+  // Delete single notification after reading
   const handleNotificationClick = async (notificationId) => {
     try {
       const res = await axios.post(
@@ -86,42 +78,29 @@ function Navbar({ setSidebarOpen }) {
       );
 
       setNotifications((prev) =>
-        prev.map((item) =>
-          item.id === notificationId ? { ...item, is_read: true } : item
-        )
+        prev.filter((item) => item.id !== notificationId)
       );
 
       setUnreadCount(res.data.unread_count);
     } catch (error) {
-      console.error("Error marking notification as read:", error);
+      console.error("Error deleting notification:", error);
     }
   };
 
-  // =========================
-  // MARK ALL AS READ
-  // =========================
+  // Delete all notifications
   const handleMarkAllRead = async () => {
     try {
       const res = await axios.post(
         "http://127.0.0.1:8000/api/admin/notifications/read-all/"
       );
 
-      setNotifications((prev) =>
-        prev.map((item) => ({
-          ...item,
-          is_read: true,
-        }))
-      );
-
-      setUnreadCount(res.data.unread_count); // becomes 0
+      setNotifications([]);
+      setUnreadCount(res.data.unread_count);
     } catch (error) {
-      console.error("Error marking all as read:", error);
+      console.error("Error deleting all notifications:", error);
     }
   };
 
-  // =========================
-  // CLOSE DROPDOWN WHEN CLICK OUTSIDE
-  // =========================
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -133,9 +112,6 @@ function Navbar({ setSidebarOpen }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // =========================
-  // FORMAT DATE
-  // =========================
   const formatDate = (dateString) => {
     if (!dateString) return "";
     return new Date(dateString).toLocaleString();
@@ -144,8 +120,6 @@ function Navbar({ setSidebarOpen }) {
   return (
     <header className="h-[81px] w-full bg-[#F9F8F6] sticky top-0 z-30">
       <div className="h-full flex items-center justify-between px-6 md:px-8">
-
-        {/* Left Section */}
         <div className="flex items-center gap-4">
           <button onClick={() => setSidebarOpen(true)} className="lg:hidden">
             <FiMenu className="text-2xl text-gray-700" />
@@ -156,7 +130,6 @@ function Navbar({ setSidebarOpen }) {
           </h1>
         </div>
 
-        {/* Right Section */}
         <div className="relative" ref={dropdownRef}>
           <button
             onClick={() => setShowDropdown((prev) => !prev)}
@@ -164,7 +137,6 @@ function Navbar({ setSidebarOpen }) {
           >
             <FiBell className="text-[22px] text-gray-700" />
 
-            {/* RED BADGE ONLY WHEN UNREAD EXISTS */}
             {unreadCount > 0 && (
               <span className="absolute -top-1 -right-1 min-w-[20px] h-[20px] px-1 bg-red-500 text-white text-[11px] font-semibold flex items-center justify-center rounded-full">
                 {unreadCount > 99 ? "99+" : unreadCount}
@@ -172,18 +144,17 @@ function Navbar({ setSidebarOpen }) {
             )}
           </button>
 
-          {/* DROPDOWN */}
           {showDropdown && (
             <div className="absolute right-0 mt-3 w-[360px] max-h-[420px] overflow-y-auto bg-white rounded-xl shadow-xl border border-gray-200 z-50">
               <div className="flex items-center justify-between px-4 py-3 border-b">
                 <h3 className="font-semibold text-gray-800">Notifications</h3>
 
-                {unreadCount > 0 && (
+                {notifications.length > 0 && (
                   <button
                     onClick={handleMarkAllRead}
                     className="text-sm text-blue-600 hover:underline"
                   >
-                    Mark all as read
+                    Clear all
                   </button>
                 )}
               </div>
@@ -196,13 +167,8 @@ function Navbar({ setSidebarOpen }) {
                 notifications.map((notification) => (
                   <div
                     key={notification.id}
-                    onClick={() => {
-                      if (!notification.is_read) {
-                        handleNotificationClick(notification.id);
-                      }
-                    }}
-                    className={`px-4 py-3 border-b cursor-pointer hover:bg-gray-50 ${notification.is_read ? "bg-white" : "bg-red-50"
-                      }`}
+                    onClick={() => handleNotificationClick(notification.id)}
+                    className="px-4 py-3 border-b cursor-pointer hover:bg-gray-50 bg-red-50"
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div>
@@ -217,9 +183,7 @@ function Navbar({ setSidebarOpen }) {
                         </p>
                       </div>
 
-                      {!notification.is_read && (
-                        <span className="mt-1 w-2.5 h-2.5 bg-red-500 rounded-full shrink-0"></span>
-                      )}
+                      <span className="mt-1 w-2.5 h-2.5 bg-red-500 rounded-full shrink-0"></span>
                     </div>
                   </div>
                 ))

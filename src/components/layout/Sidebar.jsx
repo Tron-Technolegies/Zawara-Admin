@@ -6,6 +6,8 @@ import {
   FiUsers,
   FiLogOut,
   FiX,
+  FiDollarSign,
+  FiFileText,
 } from "react-icons/fi";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -41,17 +43,21 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
       path: "/orders",
     },
     {
+      title: "Sales",
+      icon: <FiDollarSign />,
+      path: "/saleshistory",
+    },
+    {
       title: "Customers",
       icon: <FiUsers />,
       path: "/customers",
     },
     {
       title: "Coupons",
-      icon: <FiUsers />,
+      icon: <FiFileText />,
       path: "/coupons",
     },
   ];
-
   return (
     <>
       {/* Mobile Overlay */}

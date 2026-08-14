@@ -95,8 +95,8 @@ function CategoryTable({ categories }) {
                 <td className="px-4 lg:px-6 py-4 whitespace-nowrap">
                   <span
                     className={`px-3 py-1 rounded-full text-xs ${category.status === "Active"
-                        ? "bg-green-100 text-green-700"
-                        : "bg-red-100 text-red-700"
+                      ? "bg-green-100 text-green-700"
+                      : "bg-red-100 text-red-700"
                       }`}
                   >
                     {category.status}
@@ -141,7 +141,7 @@ function CategoryTable({ categories }) {
         )}
 
         {showDeleteModal && (
-          <div className="fixed inset-0 bg-black/40 flex items-center justify-center px-4">
+          <div className="fixed inset-0 bg-black/40 flex items-center justify-center px-4 z-[70]">
             <div className="bg-white p-6 rounded-xl w-full max-w-sm">
               <h3 className="text-lg font-semibold">
                 Delete Category
