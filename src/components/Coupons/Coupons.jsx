@@ -57,7 +57,7 @@ const Coupons = () => {
     };
 
     const filteredCoupons = coupons.filter((coupon) =>
-        coupon.name.toLowerCase().includes(search.toLowerCase())
+        (coupon.name || "").toLowerCase().includes(search.toLowerCase())
     );
 
     return (
