@@ -3,10 +3,22 @@ import { Search, Link } from "lucide-react";
 import useAdminOrders from "../hooks/useAdminOrders";
 
 function OrdersPage() {
-  const { orders, loading, error } = useAdminOrders();
+  const {
+    orders,
+    loading,
+    error,
+    updateOrderStatus,
+  } = useAdminOrders();
+  const buttons = [
+    "All",
+    "Pending",
+    "Processing",
+    "Shipped",
+    "Completed",
+    "Cancelled"
+  ];
 
   const [active, setActive] = useState("All");
-  const buttons = ["All", "Pending", "Processing", "Shipped", "Completed", "Cancelled"];
   const [search, setSearch] = useState("");
 
   const filteredOrders = useMemo(() => {
@@ -62,15 +74,18 @@ function OrdersPage() {
         <h1 className="text-2xl md:text-4xl font-bold">Orders</h1>
 
         <div className="flex justify-between items-center py-9 flex-wrap gap-4">
+
           {/* Status Buttons */}
+
           <div className="flex gap-3 flex-wrap">
             {buttons.map((btn) => (
               <button
                 key={btn}
+                type="button"
                 onClick={() => setActive(btn)}
-                className={`px-4 py-2 rounded-full transition text-sm ${active === btn
-                  ? "bg-blue-700 font-semibold text-white"
-                  : "bg-white font-semibold text-slate-700 hover:bg-slate-50"
+                className={`px-4 py-2 rounded-full transition text-sm font-semibold ${active === btn
+                  ? "bg-blue-700 text-white"
+                  : "bg-white text-slate-700 hover:bg-slate-50"
                   }`}
               >
                 {btn}
@@ -190,13 +205,21 @@ function OrdersPage() {
                       {/* Status */}
                       <td className="px-6 py-4">
                         <div className="flex justify-center">
-                          <span
-                            className={`rounded-lg px-3 py-1 text-sm font-medium ${getStatusBadge(
+                          <select
+                            value={order.orderStatus || "Pending"}
+                            onChange={(e) =>
+                              updateOrderStatus(order.id, e.target.value)
+                            }
+                            className={`rounded-lg px-3 py-2 text-sm font-medium border-0 outline-none cursor-pointer ${getStatusBadge(
                               order.orderStatus
                             )}`}
                           >
-                            {order.orderStatus}
-                          </span>
+                            <option value="Pending">Pending</option>
+                            <option value="Processing">Processing</option>
+                            <option value="Shipped">Shipped</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Cancelled">Cancelled</option>
+                          </select>
                         </div>
                       </td>
                     </tr>

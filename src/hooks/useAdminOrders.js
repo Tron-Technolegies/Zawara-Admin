@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import { getAdminOrders } from "../api/orders";
+import {
+    getAdminOrders,
+    updateAdminOrderStatus,
+} from "../api/orders";
 
 function useAdminOrders() {
     const [orders, setOrders] = useState([]);
@@ -22,6 +25,23 @@ function useAdminOrders() {
         }
     };
 
+    const updateOrderStatus = async (orderId, newStatus) => {
+        try {
+            await updateAdminOrderStatus(orderId, newStatus);
+
+            setOrders((prevOrders) =>
+                prevOrders.map((order) =>
+                    order.id === orderId
+                        ? { ...order, orderStatus: newStatus }
+                        : order
+                )
+            );
+        } catch (err) {
+            console.error("Failed to update order status:", err);
+            setError("Failed to update order status");
+        }
+    };
+
     useEffect(() => {
         fetchOrders();
     }, []);
@@ -31,6 +51,7 @@ function useAdminOrders() {
         loading,
         error,
         refetchOrders: fetchOrders,
+        updateOrderStatus,
     };
 }
 
