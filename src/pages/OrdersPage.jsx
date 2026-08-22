@@ -129,7 +129,10 @@ function OrdersPage() {
                 <tr>
                   <th className="px-6 py-4 text-left">Order ID</th>
                   <th className="px-6 py-4 text-left">User / Details</th>
-                  <th className="px-6 py-4 text-left">Date</th>
+                  <th className="px-6 py-4 text-left">Address</th>
+                  <th className="px-6 py-4 text-left">Order Date</th>
+                  <th className="px-6 py-4 text-left">Shipping Date</th>
+                  {/* <th className="px-6 py-4 text-left">Completed Date</th> */}
                   <th className="px-6 py-4 text-left">Total</th>
                   <th className="px-6 py-4 text-left">Items</th>
                   <th className="px-6 py-4 text-center">Tracking Link</th>
@@ -140,7 +143,7 @@ function OrdersPage() {
               <tbody>
                 {filteredOrders.length === 0 ? (
                   <tr>
-                    <td colSpan="7" className="px-6 py-8 text-center text-gray-500">
+                    <td colSpan="10" className="px-6 py-8 text-center text-gray-500">
                       No orders found.
                     </td>
                   </tr>
@@ -161,10 +164,26 @@ function OrdersPage() {
                         <p className="text-sm text-gray-500 pt-1">{order.phone || "-"}</p>
                       </td>
 
+                      <td className="px-6 py-4 text-gray-500 whitespace-nowrap">
+                        {order.shippingAddress?.split("\n").map((line, index) => (
+                          <div key={index} className="mb-1">
+                            {line}
+                          </div>
+                        ))}
+                      </td>
+
                       {/* Date */}
                       <td className="px-6 py-4 text-gray-500 whitespace-nowrap">
                         {order.orderDate}
                       </td>
+
+                      <td className="px-6 py-4 text-gray-500 whitespace-nowrap">
+                        {order.shippedDate || "-"}
+                      </td>
+
+                      {/* <td className="px-6 py-4 text-gray-500 whitespace-nowrap">
+                        {order.completedDate || "-"}
+                      </td> */}
 
                       {/* Total */}
                       <td className="px-6 py-4 text-gray-700 font-medium whitespace-nowrap">

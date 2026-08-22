@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -7,8 +6,10 @@ const Login = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        // Login successful
         navigate("/dashboard");
     };
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
             <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
@@ -16,11 +17,12 @@ const Login = () => {
                     Login
                 </h1>
 
-                <form className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                         <label className="block mb-2 font-medium">
                             Username
                         </label>
+
                         <input
                             type="text"
                             name="username"
@@ -34,6 +36,7 @@ const Login = () => {
                         <label className="block mb-2 font-medium">
                             Password
                         </label>
+
                         <input
                             type="password"
                             name="password"
@@ -43,12 +46,12 @@ const Login = () => {
                         />
                     </div>
 
-                    <Link to="dashboard">
-                        <button
-                            type="submit"
-                            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition my-2">
-                            Login
-                        </button></Link>
+                    <button
+                        type="submit"
+                        className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition my-2"
+                    >
+                        Login
+                    </button>
                 </form>
             </div>
         </div>
