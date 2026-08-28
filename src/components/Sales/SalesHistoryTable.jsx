@@ -242,6 +242,5 @@ const SalesHistoryTable = ({
 
         </div>
     );
-};
-
+}
 export default SalesHistoryTable;

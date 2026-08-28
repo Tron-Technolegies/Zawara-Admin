@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function SalesHeader({
+function SaleHeader({
     statusFilter,
     setStatusFilter,
     searchTerm,
@@ -39,4 +39,4 @@ function SalesHeader({
     );
 }
 
-export default SalesHeader;
+export default SaleHeader;

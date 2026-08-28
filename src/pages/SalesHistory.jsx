@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import useSalesHistory from "../hooks/useSalesHistory";
-import SalesHistoryTable from "../Components/Sales/SalesHistoryTable";
-import SalesHeader from "../Components/Sales/SalesHeader";
+import SalesHistoryTable from "../components/Sales/SalesHistoryTable"
+import SaleHeader from "../components/Sales/SaleHeader";
 
 const SalesHistory = () => {
     const {
@@ -41,7 +41,7 @@ const SalesHistory = () => {
     return (
         <div className="p-4 md:p-6">
 
-            <SalesHeader
+            <SaleHeader
                 statusFilter={statusFilter}
                 setStatusFilter={setStatusFilter}
                 searchTerm={searchTerm}
