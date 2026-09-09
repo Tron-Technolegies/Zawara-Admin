@@ -9,3 +9,15 @@ export const updateAdminOrderStatus = (orderId, status) => {
         orderStatus: status,
     });
 };
+
+export const updateAdminTrackingLink = (orderId, trackingLink) => {
+    return api.post(`admin_update_tracking_link/${orderId}/`, {
+        trackingLink: trackingLink,
+    });
+};
+
+export const updateAdminTrackingNumber = (orderId, trackingNumber) => {
+    return api.post(`admin_update_tracking_number/${orderId}/`, {
+        trackingNumber: trackingNumber,
+    });
+};

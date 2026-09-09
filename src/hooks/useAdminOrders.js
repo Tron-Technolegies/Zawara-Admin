@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import {
     getAdminOrders,
     updateAdminOrderStatus,
+    updateAdminTrackingLink,
+    updateAdminTrackingNumber,
 } from "../api/orders";
 
 function useAdminOrders() {
@@ -42,6 +44,42 @@ function useAdminOrders() {
         }
     };
 
+    const updateTrackingLink = async (orderId, trackingLink) => {
+        try {
+            await updateAdminTrackingLink(orderId, trackingLink);
+
+            setOrders((prevOrders) =>
+                prevOrders.map((order) =>
+                    order.id === orderId
+                        ? { ...order, trackingLink: trackingLink }
+                        : order
+                )
+            );
+        } catch (err) {
+            console.error("Failed to update tracking link:", err);
+            setError("Failed to update tracking link");
+            throw err;
+        }
+    };
+
+    const updateTrackingNumber = async (orderId, trackingNumber) => {
+        try {
+            await updateAdminTrackingNumber(orderId, trackingNumber);
+
+            setOrders((prevOrders) =>
+                prevOrders.map((order) =>
+                    order.id === orderId
+                        ? { ...order, trackingNumber: trackingNumber }
+                        : order
+                )
+            );
+        } catch (err) {
+            console.error("Failed to update tracking number:", err);
+            setError("Failed to update tracking number");
+            throw err;
+        }
+    };
+
     useEffect(() => {
         fetchOrders();
     }, []);
@@ -52,6 +90,8 @@ function useAdminOrders() {
         error,
         refetchOrders: fetchOrders,
         updateOrderStatus,
+        updateTrackingLink,
+        updateTrackingNumber,
     };
 }
 
