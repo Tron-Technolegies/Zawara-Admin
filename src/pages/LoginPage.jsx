@@ -27,10 +27,7 @@ function LoginPage() {
     setIsLoading(true);
 
     try {
-      const response = await api.post(
-        "login/",
-        formData
-      );
+      const response = await api.post("login/", formData);
 
       localStorage.setItem(
         "access",
@@ -42,20 +39,25 @@ function LoginPage() {
         response.data.tokens.refresh
       );
 
+      // Stop Processing first
+      setIsLoading(false);
+
+      // Then show success message
       alert("Admin Login Successful");
 
+      // Navigate after message
       navigate("/dashboard");
 
     } catch (error) {
       console.log(error.response?.data);
 
+      // Stop Processing on error too
+      setIsLoading(false);
+
       alert(
         error.response?.data?.error ||
         "Login failed"
       );
-
-    } finally {
-      setIsLoading(false);
     }
   };
 
