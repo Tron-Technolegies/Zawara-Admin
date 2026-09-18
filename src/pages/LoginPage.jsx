@@ -4,10 +4,13 @@ import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -18,6 +21,10 @@ function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (isLoading) return;
+
+    setIsLoading(true);
 
     try {
       const response = await api.post(
@@ -37,7 +44,7 @@ function LoginPage() {
 
       alert("Admin Login Successful");
 
-      navigate("/dashboard"); // redirect
+      navigate("/dashboard");
 
     } catch (error) {
       console.log(error.response?.data);
@@ -46,17 +53,23 @@ function LoginPage() {
         error.response?.data?.error ||
         "Login failed"
       );
+
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
       <div className="w-full max-w-md">
+
         <div className="bg-white rounded-2xl shadow-lg p-8">
+
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-gray-900">
               Admin Login
             </h1>
+
             <p className="text-gray-500 mt-2">
               Sign in to access the dashboard
             </p>
@@ -75,7 +88,8 @@ function LoginPage() {
                 placeholder="Enter your email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black"
+                disabled={isLoading}
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black disabled:bg-gray-100"
                 required
               />
             </div>
@@ -91,24 +105,32 @@ function LoginPage() {
                 placeholder="Enter your password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black"
+                disabled={isLoading}
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black disabled:bg-gray-100"
                 required
               />
             </div>
 
             <button
               type="submit"
-              className="w-full bg-black text-white py-3 rounded-xl font-semibold hover:bg-gray-800 transition duration-300"
+              disabled={isLoading}
+              className="w-full bg-black text-white py-3 rounded-xl font-semibold hover:bg-gray-800 transition duration-300 disabled:bg-gray-500 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              Sign In
+              {isLoading ? (
+                <>
+                  <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                  Processing...
+                </>
+              ) : (
+                "Sign In"
+              )}
             </button>
+
           </form>
 
         </div>
       </div>
-
     </div>
-
   );
 }
 
